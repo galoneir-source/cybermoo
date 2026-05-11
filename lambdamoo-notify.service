@@ -1,0 +1,8 @@
+[Unit]
+Description=Notificacion de caida LambdaMOO
+After=network.target
+
+[Service]
+Type=oneshot
+User=root
+ExecStart=/bin/bash /root/MOO-1.8.1/notify_caida.sh
