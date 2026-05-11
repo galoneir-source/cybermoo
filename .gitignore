@@ -10,6 +10,9 @@ conexiones.csv
 *.log
 *.log.old
 
+# Artefactos generados
+conexiones_semanal.png
+
 # Secretos
 .env
 
