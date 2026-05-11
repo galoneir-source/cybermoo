@@ -1,0 +1,20 @@
+[Unit]
+Description=LambdaMOO Server (cyberlife.es)
+After=network.target
+OnFailure=lambdamoo-notify.service
+StartLimitIntervalSec=120
+StartLimitBurst=5
+
+[Service]
+Type=simple
+User=root
+WorkingDirectory=/root/MOO-1.8.1
+ExecStart=/bin/bash /root/MOO-1.8.1/start_moo.sh
+ExecStartPost=/bin/sh -c 'while /sbin/iptables -D INPUT -p tcp --dport 7777 -m state --state NEW -m hashlimit --hashlimit-name moo-ratelimit --hashlimit-above 8/min --hashlimit-mode srcip --hashlimit-burst 4 -j DROP 2>/dev/null; do :; done; /sbin/iptables -I INPUT -p tcp --dport 7777 -m state --state NEW -m hashlimit --hashlimit-name moo-ratelimit --hashlimit-above 8/min --hashlimit-mode srcip --hashlimit-burst 4 -j DROP'
+Restart=always
+RestartSec=10
+StandardOutput=journal
+StandardError=journal
+
+[Install]
+WantedBy=multi-user.target
