@@ -12,6 +12,18 @@ conexiones.csv
 
 # Artefactos generados
 conexiones_semanal.png
+__pycache__/
+*.orig
+y.tab.h
+
+# Runtime del MOO
+nohup.out
+restart
+lambdacore.backup
+
+# Herramientas externas
+pgperf/
+photorec.se2
 
 # Secretos
 .env
