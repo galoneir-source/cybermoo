@@ -38,4 +38,11 @@ if [[ -z "$SUBJECT" ]]; then
     SUBJECT="[cyberlife.es] Resumen semanal de conexiones"
 fi
 
-echo "$CUERPO" | mail -s "$SUBJECT" "$ALERT_EMAIL" 2>/dev/null
+GRAFICA="/root/MOO-1.8.1/conexiones_semanal.png"
+/usr/bin/python3 /root/MOO-1.8.1/grafica_conexiones.py >> "$LOG_FILE" 2>&1
+if [[ -f "$GRAFICA" ]]; then
+    echo "$CUERPO" | mail -s "$SUBJECT" -a "$GRAFICA" "$ALERT_EMAIL" 2>/dev/null
+else
+    echo "$(date '+%F %T') [WARN] Gráfica no generada, enviando resumen sin adjunto." >> "$LOG_FILE"
+    echo "$CUERPO" | mail -s "$SUBJECT" "$ALERT_EMAIL" 2>/dev/null
+fi
